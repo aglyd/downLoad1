@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .myodd{
+            background-color: darkcyan;
+        }
+        .myeven{
+            background-color: chocolate;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li th:each="list,v: ${list}" th:class="${v.odd}?'myodd':'myeven'">
+    <!--<span th:text="${v.odd}"></span>-->
+    <span th:text="${list.id}"></span>
+    <span th:text="${list.name}"></span>
+</li>
+</ul>
+欢迎！hello2
+<ul>
+    <li th:each="list,v: ${users}" th:class="${v.odd}?'myodd':'myeven'">
+        <span th:text="${v.odd}"></span>
+        <span th:text="${list.userid}"></span>
+        <span th:text="${list.nickname}"></span>
+    </li>
+</ul>
+
+
+
+</body>
+</html>

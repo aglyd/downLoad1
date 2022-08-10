@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!--<base href="http://localhost:8080/boot01/">-->
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>首页</h1>
+<h3 th:text="${#strings.isEmpty(name)}">欢迎</h3>
+<h3 th:text="${name}">欢迎index2</h3>
+<img th:src="@{/img/open.png}"/>
+<p th:text="*{hero.date}"></p>
+<p th:text="*{#dates.format(hero.date,'yyyy-MM-dd hh:mm:ss')}"></p>
+
+<ul>
+    <li th:text="${hero.id}"></li>
+    <li th:text="*{hero.name}"></li>
+</ul>
+<a href="../users">hero页面</a>
+<button>th标签测试</button>
+
+<h3>取对象,设置id属性，value属性</h3>
+<input th:id="${hero.id}" type="text" th:value="${hero.name}" />
+<input type="password" th:value="${hero.pass}" />
+
+
+
+</body>
+<script>
+    $(function () {
+        $("button").click(function () {
+            alert("测试成功");
+        });
+    });
+</script>
+</html>

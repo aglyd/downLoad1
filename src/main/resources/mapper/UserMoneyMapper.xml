@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.download1.dao.UserMoneyDao">
+
+    <resultMap id="userMoneyResul" type="com.example.download1.entity.UserMoney">
+        <result column="uid" property="uid"/>
+        <result column="money" property="money"/>
+        <result column="insert_time" property="insertTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <sql id="select_cloumn_list">
+        select uid,money,insert_time,update_time from user_money
+    </sql>
+
+    <insert id="insertUserMoney">
+        insert into user_money(uid,money) values(#{uid},#{money})
+    </insert>
+
+    <select id="selectUserMoneyList" resultMap="userMoneyResul">
+        <include refid="select_cloumn_list"></include>
+        <where>
+            <if test="uid !=null and uid != ''">
+                and uid = #{uid}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
