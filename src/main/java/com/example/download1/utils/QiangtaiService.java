@@ -16,6 +16,7 @@ import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.*;
 
+@Service
 public class QiangtaiService {
 
     private static final Logger logger = LoggerFactory.getLogger(QiangtaiService.class);
@@ -35,7 +37,7 @@ public class QiangtaiService {
      *
      * @throws Exception
      */
-    public static String getResoucesByLoginCookies(String url, Map<String, Object> param) throws IOException, InterruptedException {
+    public static String getResoucesByLoginCookies(String url, Map<String, Object> param,Boolean waitFlag) throws IOException, InterruptedException {
 
         DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
 
@@ -98,20 +100,9 @@ public class QiangtaiService {
            httpPostList = getHttpPostDataList((List<List<String>>) param.get("timeParam"), dayAfterTomorrowSecond,getSecondTimestamp(dayOfTomorrowTime), user_id);
         }
 
-
-
-        int roundCount = 0;
-        //请求调用时间倒计时：到零点时：当前时间+1的零时 = （提前获取的）后天零时
-        /*while (true)
-        {
-            dayOfTomorrowTime = getDayAfterTomorrow(1);
-            roundCount++;
-            if (dayOfTomorrowTime >= dayAfterTomorrowTime){
-                break;
-            }
-            Thread.sleep(10);
-        }*/
-        logger.info("当前时间戳：{},循环次数为：{}", dayOfTomorrowTime, roundCount);
+        if (waitFlag){
+            waitTime(dayAfterTomorrowTime);
+        }
 
         ExecutorService executorService = Executors.newFixedThreadPool(20);
 //        List<Future> futureList = new ArrayList<>();
@@ -165,6 +156,27 @@ public class QiangtaiService {
 //        }
 
         return resultStr;
+    }
+
+
+    /**
+     * 请求调用时间倒计时：到零点时：当前时间+1的零时 = （提前获取的）后天零时
+     * dayAfterTomorrowTime 后天零时
+     * @throws InterruptedException
+     */
+    public static void waitTime(Long dayAfterTomorrowTime) throws InterruptedException {
+        Long dayOfTomorrowTime;
+        int roundCount = 0;
+          while (true)
+        {
+            dayOfTomorrowTime = getDayAfterTomorrow(1);
+            roundCount++;
+            if (dayOfTomorrowTime >= dayAfterTomorrowTime){
+                break;
+            }
+            Thread.sleep(10);
+        }
+        logger.info("当前时间戳：{},循环次数为：{}", dayOfTomorrowTime, roundCount);
     }
 
 
@@ -245,9 +257,8 @@ public class QiangtaiService {
         int length = timestamp.length();
         if (length > 3) {
             return Integer.valueOf(timestamp.substring(0,length-3));
-        } else {
-            return 0;
         }
+        return Integer.parseInt(String.valueOf(time));
     }
 
     /**
@@ -321,7 +332,7 @@ public class QiangtaiService {
         logger.info("当前时间为：{},循环次数:{}",now,count);
     }
 
-    public static int addIntNum(int count){
+    public int addIntNum(int count){
         Integer i = count;
         i+=2;
         count++;
@@ -336,8 +347,5 @@ public class QiangtaiService {
         final QiangtaiService qiangtaiService = new QiangtaiService();
 //        qiangtaiService.testTime();
 //        System.out.println(getSecondTimestamp(getDayAfterTomorrow(1)));
-        int i = 0;
-        final int i1 = addIntNum(i);
-        System.out.println(i+"//"+i1);
     }
 }

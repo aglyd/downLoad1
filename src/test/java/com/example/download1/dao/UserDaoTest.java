@@ -25,10 +25,12 @@ class UserDaoTest {
     public UserMoneyDao userMoneyDao;
     @Value("${user1.name1}")
     private String username;
+    @Value("${user1.name2}")
+    private String username2;
     @Value("${spring.datasource.url}")
     private String jdbcurl;
 
-    @Test
+//    @Test
     void insertUser() {
         logger.info("开始测试新增用户信息");
         User user = new User("小新");
@@ -46,7 +48,9 @@ class UserDaoTest {
 
         Map property = PropertiesUtil.read("application-Druid");
         String envName = property.get("envName").toString();
-        String jdbcurl = property.get("jdbc.url").toString();
-        logger.info("username:{},envName:{},jdbc_url:{}",username, envName,jdbcurl);
+        String jdbcurl2 = property.get("jdbc.url").toString();
+        String getname = property.get("getname").toString();
+        logger.info("username:{},envName:{},username2:{},getname:{}",username, envName,username2,getname);
+        logger.info("jdbcurl:{}，jdbcurl2：{}",jdbcurl,jdbcurl2);
     }
 }

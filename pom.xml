@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
-<!--        <resource.delimiter>@</resource.delimiter> &lt;!&ndash; delimiter that doesn't clash with Spring ${} placeholders &ndash;&gt;-->
+        <resource.delimiter>@</resource.delimiter> <!-- delimiter that doesn't clash with Spring ${} placeholders -->
 <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
 <!--        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
 <!--        <maven.compiler.source>${java.version}</maven.compiler.source>-->
@@ -81,6 +81,16 @@
             <artifactId>xxl-job-core</artifactId>
             <version>2.4.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+<!--            <version>2.3.4.RELEASE</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+        </dependency>
     </dependencies>
 
 
@@ -123,7 +133,7 @@
 <!--            加载特定配置文件-->
             <resource>
                 <directory>src/main/resources/profiles/${profiles.active}</directory>
-                <filtering>true</filtering>
+<!--                <filtering>true</filtering>-->
             </resource>
         </resources>
 <!--        指定打包生成的包名（可创建子目录）-->
